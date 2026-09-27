@@ -14,6 +14,7 @@ from typing import Dict, List, Optional
 from .core.interfaces import MarketDataProvider, Strategy
 from .core.registry import ProviderRegistry
 from .collectors.mock_provider import MockProvider
+from .collectors.fdr_provider import FinanceDataReaderProvider
 from .normalization.normalizer import Normalizer
 from .validation.data_quality import DataValidator
 from .validation.cross_source import CrossSourceVerifier
@@ -28,6 +29,7 @@ class MarketEngine:
                  provider_kwargs: Optional[dict] = None):
         self.registry = ProviderRegistry()
         self.registry.register(MockProvider)  # 기본 Mock (테스트/구조 검증용)
+        self.registry.register(FinanceDataReaderProvider)
         # → KRX, LS Xing, Naver, Yahoo 등은 추후 register로 추가
         self.provider_kwargs = provider_kwargs or {}
         self.providers: Dict[str, MarketDataProvider] = {
